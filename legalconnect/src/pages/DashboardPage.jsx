@@ -1,6 +1,7 @@
 // src/pages/DashboardPage.jsx
 import React, { useContext, useState, useEffect } from "react";
 import { LawyerContext } from "../contexts/LawyerContext";
+import { ChatContext } from "../contexts/ChatContext";
 import { useLanguage } from "../hooks/useLanguage";
 import { lawyerService } from "../services/lawyerService";
 import { chatService } from "../services/chatService";
@@ -13,6 +14,7 @@ import { SPECIALIZATIONS, LOCATIONS, getInitials, formatTime } from "../utils/he
 
 const DashboardPage = () => {
   const { currentUser, setAuthModal, logout, refreshLawyers } = useContext(LawyerContext);
+  const { openChat } = useContext(ChatContext);
   const { t } = useLanguage();
 
   const [profile, setProfile] = useState(null);
@@ -191,19 +193,47 @@ const DashboardPage = () => {
               ) : (
                 <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
                   {conversations.slice(0, 6).map((conv) => {
-                    const otherId = conv.customer_id === currentUser.id ? conv.lawyer_id : conv.customer_id;
+                    const isLawyerConv = currentUser.role === "lawyer";
                     return (
-                      <div key={conv.id} style={{ display: "flex", gap: "12px", alignItems: "center", padding: "10px", borderRadius: "var(--radius)", background: "var(--gray-50)", border: "1px solid var(--gray-100)" }}>
-                        <div style={{ width: 36, height: 36, borderRadius: "50%", background: "var(--navy)", display: "flex", alignItems: "center", justifyContent: "center", color: "var(--white)", fontSize: "0.72rem", fontWeight: 600, flexShrink: 0 }}>
-                          {otherId?.slice(0,2).toUpperCase()}
+                      <div
+                        key={conv.id}
+                        onClick={() => {
+                          const otherUser = {
+                            id: isLawyerConv ? conv.customer_id : conv.lawyer_id,
+                            fullName: isLawyerConv ? conv.customer_id.slice(0, 8) : conv.lawyer_id.slice(0, 8),
+                            specialization: "Legal Chat",
+                            available: true,
+                          };
+                          openChat(otherUser);
+                        }}
+                        style={{
+                          display: "flex", gap: "12px", alignItems: "center",
+                          padding: "12px", borderRadius: "var(--radius)",
+                          background: "var(--gray-50)", border: "1px solid var(--gray-100)",
+                          cursor: "pointer", transition: "all 0.2s",
+                        }}
+                        onMouseEnter={e => e.currentTarget.style.background = "var(--gray-100)"}
+                        onMouseLeave={e => e.currentTarget.style.background = "var(--gray-50)"}
+                      >
+                        <div style={{
+                          width: 36, height: 36, borderRadius: "50%",
+                          background: "var(--navy)", display: "flex",
+                          alignItems: "center", justifyContent: "center",
+                          color: "var(--white)", fontSize: "0.72rem",
+                          fontWeight: 600, flexShrink: 0
+                        }}>
+                          <MessageCircle size={16} />
                         </div>
                         <div style={{ flex: 1, minWidth: 0 }}>
-                          <div style={{ fontSize: "0.78rem", fontWeight: 500, color: "var(--navy)" }}>
-                            Conversation
+                          <div style={{ fontSize: "0.82rem", fontWeight: 500, color: "var(--navy)" }}>
+                            {isLawyerConv ? "Client Message" : "Lawyer Message"}
                           </div>
                           <div style={{ fontSize: "0.72rem", color: "var(--gray-400)" }}>
-                            {formatTime(conv.updated_at)}
+                            {formatTime(conv.updated_at)} · Click to open
                           </div>
+                        </div>
+                        <div style={{ color: "var(--gold)", fontSize: "0.75rem", fontWeight: 500 }}>
+                          Open →
                         </div>
                       </div>
                     );
