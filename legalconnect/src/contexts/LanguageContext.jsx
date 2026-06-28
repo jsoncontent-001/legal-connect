@@ -1,18 +1,19 @@
 // src/contexts/LanguageContext.jsx
 import React, { createContext, useState } from "react";
 import { translations } from "../utils/translations";
-import { storage } from "../services/localStorageService";
 
 export const LanguageContext = createContext();
 
 export const LanguageProvider = ({ children }) => {
-  const [language, setLanguage] = useState(storage.get("language") || "en");
+  const [language, setLanguage] = useState(
+    localStorage.getItem("legalconnect_language") || "en"
+  );
 
   const t = translations[language] || translations.en;
 
   const switchLanguage = (lang) => {
     setLanguage(lang);
-    storage.set("language", lang);
+    localStorage.setItem("legalconnect_language", lang);
   };
 
   return (
