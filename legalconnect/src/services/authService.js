@@ -2,7 +2,6 @@
 import { supabase } from "../lib/supabase";
 
 export const authService = {
-  // Register a new user (customer or lawyer)
   register: async (userData) => {
     const {
       fullName, email, password, role,
@@ -10,7 +9,6 @@ export const authService = {
       location, barNumber, bio,
     } = userData;
 
-    // 1. Create auth user — metadata triggers the DB profile creation
     const { data: authData, error: authError } = await supabase.auth.signUp({
       email,
       password,
@@ -22,7 +20,9 @@ export const authService = {
     if (authError) return { success: false, error: authError.message };
     if (!authData.user) return { success: false, error: "Signup failed" };
 
-    // 2. If lawyer, insert lawyer_profile row
+    // Wait a moment for the trigger to create the profile
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+
     if (role === "lawyer") {
       const { error: lpError } = await supabase
         .from("lawyer_profiles")
@@ -41,26 +41,28 @@ export const authService = {
       if (lpError) console.error("Lawyer profile error:", lpError.message);
     }
 
-    const user = {
-      id: authData.user.id,
-      fullName,
-      email,
-      role,
-    };
-
-    return { success: true, user };
+    return { success: true, user: { id: authData.user.id, fullName, email, role } };
   },
 
   login: async (email, password) => {
-    const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email,
+      password,
+    });
+
     if (error) return { success: false, error: error.message };
 
-    // Fetch profile from DB
-    const { data: profile } = await supabase
-      .from("profiles")
-      .select("*")
-      .eq("id", data.user.id)
-      .single();
+    // Retry profile fetch up to 3 times
+    let profile = null;
+    for (let i = 0; i < 3; i++) {
+      const { data: p } = await supabase
+        .from("profiles")
+        .select("*")
+        .eq("id", data.user.id)
+        .single();
+      if (p) { profile = p; break; }
+      await new Promise((r) => setTimeout(r, 500));
+    }
 
     const user = {
       id: data.user.id,
@@ -76,7 +78,6 @@ export const authService = {
     await supabase.auth.signOut();
   },
 
-  // Listen to auth state changes (call on app load)
   onAuthChange: (callback) => {
     return supabase.auth.onAuthStateChange(async (event, session) => {
       if (session?.user) {
