@@ -1,0 +1,95 @@
+/* src/styles/pages/LawyersPage.css */
+.lawyers-page { padding-top: 64px; min-height: 100vh; }
+.lawyers-hero {
+  background: var(--navy);
+  padding: 56px 0 40px;
+  color: var(--white);
+}
+.lawyers-hero-title {
+  font-family: var(--font-display);
+  font-size: clamp(1.8rem, 3.5vw, 2.5rem);
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+.lawyers-hero-sub { color: rgba(255,255,255,0.6); font-size: 0.95rem; }
+.lawyers-search-bar {
+  margin-top: 28px;
+  display: flex;
+  gap: 12px;
+  max-width: 600px;
+}
+.lawyers-search-input {
+  flex: 1;
+  padding: 12px 18px;
+  border: none;
+  border-radius: var(--radius);
+  font-size: 0.95rem;
+  background: rgba(255,255,255,0.1);
+  color: var(--white);
+  border: 1.5px solid rgba(255,255,255,0.15);
+  transition: all var(--transition);
+}
+.lawyers-search-input::placeholder { color: rgba(255,255,255,0.4); }
+.lawyers-search-input:focus { outline: none; background: rgba(255,255,255,0.15); border-color: var(--gold); }
+.lawyers-search-btn {
+  padding: 12px 22px;
+  background: var(--gold);
+  color: var(--white);
+  border-radius: var(--radius);
+  font-weight: 500;
+  transition: all var(--transition);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.lawyers-search-btn:hover { background: var(--gold-light); }
+
+.lawyers-filters {
+  background: var(--white);
+  border-bottom: 1px solid var(--gray-200);
+  padding: 16px 0;
+}
+.filters-inner {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+.filter-select {
+  padding: 8px 14px;
+  border: 1.5px solid var(--gray-200);
+  border-radius: var(--radius);
+  font-size: 0.85rem;
+  background: var(--white);
+  color: var(--gray-800);
+  cursor: pointer;
+  transition: border-color var(--transition);
+  min-width: 180px;
+}
+.filter-select:focus { outline: none; border-color: var(--navy); }
+.filter-count {
+  margin-left: auto;
+  font-size: 0.82rem;
+  color: var(--gray-600);
+  font-family: var(--font-mono);
+}
+
+.lawyers-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 20px;
+  padding: 32px 0;
+}
+.lawyers-empty {
+  text-align: center;
+  padding: 80px 0;
+  color: var(--gray-400);
+}
+.lawyers-empty h3 { font-size: 1.1rem; color: var(--gray-600); margin-bottom: 8px; }
+
+@media (max-width: 768px) {
+  .lawyers-search-bar { flex-direction: column; }
+  .filters-inner { gap: 8px; }
+  .filter-select { min-width: 0; flex: 1; }
+  .filter-count { width: 100%; margin-left: 0; }
+}
