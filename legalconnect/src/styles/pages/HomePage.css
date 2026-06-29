@@ -1,7 +1,11 @@
 /* src/styles/pages/HomePage.css */
 .hero {
   min-height: 100vh;
-  background: var(--navy);
+  background: linear-gradient(
+    rgba(26, 26, 46, 0.82),
+    rgba(26, 26, 46, 0.88)
+  ),
+  url('https://images.unsplash.com/photo-1589829545856-d10d557cf95f?w=1600&q=80') center/cover no-repeat;
   display: flex;
   align-items: center;
   position: relative;

@@ -22,11 +22,14 @@ const Header = () => {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  const isLawyer = currentUser?.role === "lawyer";
+
   const navLinks = [
     { to: "/", label: t.nav.home },
-    { to: "/lawyers", label: t.nav.lawyers },
+    ...(!isLawyer ? [{ to: "/lawyers", label: t.nav.lawyers }] : []),
     { to: "/services", label: t.nav.services },
     { to: "/contact", label: t.nav.contact },
+    ...(currentUser ? [{ to: "/dashboard", label: t.nav.dashboard }] : []),
   ];
 
   return (

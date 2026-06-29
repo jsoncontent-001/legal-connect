@@ -325,25 +325,62 @@ const DashboardPage = () => {
             </div>
           )}
 
-          {/* Customer info panel */}
-          {!isLawyer && (
+          {/* Incoming clients panel */}
+          {isLawyer && (
             <div style={{ background: "var(--white)", borderRadius: "var(--radius-lg)", border: "1px solid var(--gray-200)", padding: "28px" }}>
-              <div style={{ fontFamily: "var(--font-mono)", fontSize: "0.7rem", color: "var(--gray-400)", letterSpacing: "0.1em", textTransform: "uppercase", marginBottom: "16px" }}>Account Details</div>
-              {[
-                { label: "Full Name", value: currentUser.fullName },
-                { label: "Email", value: currentUser.email },
-                { label: "Role", value: "Client" },
-              ].map(({ label, value }) => (
-                <div key={label} style={{ display: "flex", justifyContent: "space-between", padding: "14px 0", borderBottom: "1px solid var(--gray-100)" }}>
-                  <span style={{ fontSize: "0.85rem", color: "var(--gray-400)", fontWeight: 500 }}>{label}</span>
-                  <span style={{ fontSize: "0.88rem", color: "var(--gray-800)", fontWeight: 500 }}>{value}</span>
-                </div>
-              ))}
-              <div style={{ marginTop: "24px" }}>
-                <a href="/lawyers" className="btn btn-primary" style={{ width: "100%", justifyContent: "center", display: "flex" }}>
-                  Find a Lawyer
-                </a>
+              <div style={{ fontFamily: "var(--font-mono)", fontSize: "0.7rem", color: "var(--gold)", letterSpacing: "0.1em", textTransform: "uppercase", marginBottom: "16px" }}>
+                Your Incoming Clients
               </div>
+              {conversations.length === 0 ? (
+                <div style={{ textAlign: "center", padding: "32px 0", color: "var(--gray-400)" }}>
+                  <MessageSquare size={32} style={{ margin: "0 auto 12px", opacity: 0.3 }} />
+                  <p style={{ fontSize: "0.88rem" }}>No clients yet.</p>
+                  <p style={{ fontSize: "0.78rem", marginTop: "4px" }}>Make sure your availability is ON so clients can find you.</p>
+                </div>
+              ) : (
+                <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
+                  {conversations.map((conv) => (
+                    <div
+                      key={conv.id}
+                      onClick={() => openChat({
+                        id: conv.customer_id,
+                        fullName: "Client",
+                        specialization: "Client",
+                        available: true,
+                      })}
+                      style={{
+                        display: "flex", gap: "14px", alignItems: "center",
+                        padding: "14px", borderRadius: "var(--radius)",
+                        background: "var(--gray-50)", border: "1px solid var(--gray-200)",
+                        cursor: "pointer", transition: "all 0.2s",
+                      }}
+                      onMouseEnter={e => e.currentTarget.style.borderColor = "var(--gold)"}
+                      onMouseLeave={e => e.currentTarget.style.borderColor = "var(--gray-200)"}
+                    >
+                      <div style={{
+                        width: 40, height: 40, borderRadius: "50%",
+                        background: "linear-gradient(135deg, var(--navy), var(--navy-light))",
+                        display: "flex", alignItems: "center", justifyContent: "center",
+                        color: "var(--white)", flexShrink: 0
+                      }}>
+                        <User size={18} />
+                      </div>
+                      <div style={{ flex: 1 }}>
+                        <div style={{ fontWeight: 600, color: "var(--navy)", fontSize: "0.88rem" }}>Client Request</div>
+                        <div style={{ fontSize: "0.75rem", color: "var(--gray-400)", marginTop: "2px" }}>
+                          {formatTime(conv.updated_at)}
+                        </div>
+                      </div>
+                      <div style={{
+                        fontSize: "0.75rem", fontWeight: 600, color: "var(--gold)",
+                        display: "flex", alignItems: "center", gap: "4px"
+                      }}>
+                        Open Chat →
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
           )}
         </div>
