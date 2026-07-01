@@ -225,3 +225,49 @@ input, textarea, select { font-family: inherit; }
   .lawyer-card-actions .btn { width: 100%; justify-content: center; }
   .modal { margin: 0 8px; max-height: 95vh; }
 }
+
+/* Prevent horizontal overflow on all screens */
+html, body {
+  overflow-x: hidden;
+  max-width: 100vw;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+/* Fix contact page mobile layout */
+@media (max-width: 768px) {
+  /* Contact grid */
+  div[style*="grid-template-columns: 1fr 1.6fr"] {
+    display: flex !important;
+    flex-direction: column !important;
+  }
+
+  /* How it works grid */
+  div[style*="grid-template-columns: 1fr 1fr"] {
+    display: flex !important;
+    flex-direction: column !important;
+  }
+
+  /* Dashboard grid */
+  div[style*="grid-template-columns: 1fr 1.6fr"] {
+    display: flex !important;
+    flex-direction: column !important;
+  }
+
+  /* Auth modal full width */
+  .modal {
+    width: 100% !important;
+    margin: 0 !important;
+    border-radius: 16px 16px 0 0 !important;
+    position: fixed !important;
+    bottom: 0 !important;
+    max-height: 92vh !important;
+  }
+
+  .overlay {
+    align-items: flex-end !important;
+    padding: 0 !important;
+  }
+}

@@ -30,10 +30,12 @@
   position: relative;
   z-index: 2;
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 64px;
+  grid-template-columns: 1fr;
+  gap: 32px;
   align-items: center;
-  padding: 80px 0;
+  padding: 64px 0;
+  max-width: 100%;
+  overflow: hidden;
 }
 .hero-badge {
   display: inline-flex;

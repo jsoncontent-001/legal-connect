@@ -1,7 +1,7 @@
 // src/components/home/Hero.jsx
 import React, { useContext } from "react";
 import { Link } from "react-router-dom";
-import { ArrowRight, Star, Shield, CheckCircle } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import "../../styles/pages/HomePage.css";
 import { useLanguage } from "../../hooks/useLanguage";
 import { LawyerContext } from "../../contexts/LawyerContext";
@@ -52,54 +52,6 @@ const Hero = () => {
                   <div className="hero-stat-label">{label}</div>
                 </div>
               ))}
-            </div>
-          </div>
-
-          <div className="hero-visual">
-            <div className="hero-card-stack">
-              <div className="hero-float-badge badge-1">
-                <CheckCircle size={14} color="var(--success)" />
-                Verified & Licensed
-              </div>
-              <div className="hero-main-card">
-                <div className="hero-card-lawyer">
-                  <div className="hero-card-avatar">SM</div>
-                  <div>
-                    <div className="hero-card-name">Sarah Mitchell</div>
-                    <div className="hero-card-spec">Family Law • New York</div>
-                  </div>
-                </div>
-                <div style={{ display: "flex", gap: "4px", marginBottom: "16px" }}>
-                  {[1,2,3,4,5].map(i => <Star key={i} size={13} fill="var(--gold)" color="var(--gold)" />)}
-                  <span style={{ color: "rgba(255,255,255,0.5)", fontSize: "0.78rem", marginLeft: "4px" }}>4.9 (87)</span>
-                </div>
-                <div className="hero-card-divider" />
-                <div className="hero-card-stats">
-                  {[
-                    { val: "12yr", lbl: "Experience" },
-                    { val: "$180", lbl: "Per Hour" },
-                    { val: "200+", lbl: "Cases Won" },
-                  ].map(({ val, lbl }) => (
-                    <div key={lbl}>
-                      <div className="hero-card-stat-val">{val}</div>
-                      <div className="hero-card-stat-lbl">{lbl}</div>
-                    </div>
-                  ))}
-                </div>
-                <div style={{ marginTop: "20px" }}>
-                  <div style={{
-                    width: "100%", padding: "11px", background: "var(--gold)",
-                    borderRadius: "var(--radius)", textAlign: "center",
-                    color: "var(--navy)", fontWeight: 600, fontSize: "0.88rem"
-                  }}>
-                    Chat Now →
-                  </div>
-                </div>
-              </div>
-              <div className="hero-float-badge badge-2">
-                <Shield size={14} color="var(--gold)" />
-                Confidential & Secure
-              </div>
             </div>
           </div>
         </div>
