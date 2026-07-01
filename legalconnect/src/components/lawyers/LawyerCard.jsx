@@ -12,16 +12,24 @@ const LawyerCard = ({ lawyer }) => {
   const { currentUser, setAuthModal } = useContext(LawyerContext);
   const { openChat } = useContext(ChatContext);
 
-  const handleChat = () => {
+  const handleChat = async () => {
+    // Not logged in — prompt login
     if (!currentUser) {
       setAuthModal("login");
       return;
     }
+    // Lawyer cannot chat with themselves
     if (currentUser.id === lawyer.id) return;
-    openChat(lawyer);
+
+    // Open chat
+    const opened = await openChat(lawyer);
+    if (!opened) {
+      setAuthModal("login");
+    }
   };
 
   const stars = Math.round(lawyer.rating);
+  const isSelf = currentUser?.id === lawyer.id;
 
   return (
     <div className="card lawyer-card">
@@ -58,20 +66,33 @@ const LawyerCard = ({ lawyer }) => {
       </div>
 
       <div className="lawyer-card-actions">
-        <button
-          onClick={handleChat}
-          className="btn btn-primary"
-          disabled={currentUser?.id === lawyer.id}
-        >
-          <MessageCircle size={15} /> {t.lawyers.chat}
-        </button>
-        <button
-          onClick={handleChat}
-          className="btn btn-outline"
-          disabled={currentUser?.id === lawyer.id}
-        >
-          <UserCheck size={15} /> {t.lawyers.connect}
-        </button>
+        {isSelf ? (
+          <div style={{
+            width: "100%", textAlign: "center", padding: "10px",
+            fontSize: "0.82rem", color: "var(--gray-400)",
+            background: "var(--gray-50)", borderRadius: "var(--radius)",
+            border: "1px solid var(--gray-200)"
+          }}>
+            This is your profile
+          </div>
+        ) : (
+          <>
+            <button
+              onClick={handleChat}
+              className="btn btn-primary"
+              style={{ flex: 1, justifyContent: "center" }}
+            >
+              <MessageCircle size={15} /> {t.lawyers.chat}
+            </button>
+            <button
+              onClick={handleChat}
+              className="btn btn-outline"
+              style={{ flex: 1, justifyContent: "center" }}
+            >
+              <UserCheck size={15} /> {t.lawyers.connect}
+            </button>
+          </>
+        )}
       </div>
     </div>
   );

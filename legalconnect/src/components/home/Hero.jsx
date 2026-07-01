@@ -28,17 +28,25 @@ const Hero = () => {
             </h1>
             <p className="hero-sub">{t.hero.sub}</p>
             <div className="hero-actions">
-              <Link to="/lawyers" className="btn btn-primary" style={{ padding: "13px 26px", fontSize: "0.95rem" }}>
-                {t.hero.cta_primary} <ArrowRight size={16} />
-              </Link>
-              {!currentUser && (
-                <button
-                  onClick={() => setAuthModal("register")}
-                  className="btn btn-ghost"
-                  style={{ padding: "13px 26px", fontSize: "0.95rem" }}
-                >
-                  {t.hero.cta_secondary}
-                </button>
+              {currentUser?.role === "lawyer" ? (
+                <Link to="/dashboard" className="btn btn-primary" style={{ padding: "13px 26px", fontSize: "0.95rem" }}>
+                  Find Customers <ArrowRight size={16} />
+                </Link>
+              ) : (
+                <>
+                  <Link to="/lawyers" className="btn btn-primary" style={{ padding: "13px 26px", fontSize: "0.95rem" }}>
+                    {t.hero.cta_primary} <ArrowRight size={16} />
+                  </Link>
+                  {!currentUser && (
+                    <button
+                      onClick={() => setAuthModal("register")}
+                      className="btn btn-ghost"
+                      style={{ padding: "13px 26px", fontSize: "0.95rem" }}
+                    >
+                      {t.hero.cta_secondary}
+                    </button>
+                  )}
+                </>
               )}
             </div>
             <div className="hero-stats">
