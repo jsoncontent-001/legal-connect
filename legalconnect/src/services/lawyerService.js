@@ -12,6 +12,7 @@ export const lawyerService = {
           id, full_name, email, avatar_url, created_at
         )
       `)
+      .eq("status", "approved")
       .order("rating", { ascending: false });
 
     if (error) { console.error("getAll lawyers:", error.message); return []; }
@@ -33,6 +34,7 @@ export const lawyerService = {
     let query = supabase
       .from("lawyer_profiles")
       .select(`*, profiles(id, full_name, email, avatar_url)`)
+      .eq("status", "approved")
       .order("rating", { ascending: false });
 
     if (specialization && specialization !== "all") {
@@ -115,6 +117,8 @@ function normalizeLawyer(row) {
     available: row.available ?? true,
     rating: Number(row.rating) || 0,
     reviewCount: row.review_count || 0,
+    status: row.status || "pending",
+    verified: row.verified || false,
     role: "lawyer",
   };
 }
