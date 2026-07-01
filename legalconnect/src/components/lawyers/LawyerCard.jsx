@@ -104,44 +104,7 @@ const LawyerCard = ({ lawyer }) => {
             >
               <UserCheck size={15} /> {t.lawyers.connect}
             </button>
-            {!isSelf && (
-              <a
-                href="https://ewakili.judiciary.go.tz/#/ewakili/home"
-                target="_blank"
-                rel="noopener noreferrer"
-                style={{
-                  width: "100%",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  gap: "8px",
-                  padding: "9px",
-                  borderRadius: "var(--radius)",
-                  border: "1.5px solid #16a34a",
-                  color: "#16a34a",
-                  fontSize: "0.82rem",
-                  fontWeight: 500,
-                  background: "transparent",
-                  transition: "all 0.2s",
-                  textDecoration: "none",
-                  marginTop: "4px",
-                }}
-                onMouseEnter={e => {
-                  e.currentTarget.style.background = "#16a34a";
-                  e.currentTarget.style.color = "white";
-                }}
-                onMouseLeave={e => {
-                  e.currentTarget.style.background = "transparent";
-                  e.currentTarget.style.color = "#16a34a";
-                }}
-                title={`Search "${lawyer.fullName}" on Tanzania Judiciary eWakili portal`}
-              >
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
-                Verify on eWakili (Bar No: {lawyer.barNumber || "N/A"})
-              </a>
-            )}
+            
           </>
         )}
       </div>

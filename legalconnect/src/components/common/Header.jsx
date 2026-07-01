@@ -15,6 +15,7 @@ const Header = () => {
   const { t } = useLanguage();
   const location = useLocation();
   const { currentUser, setAuthModal, logout } = useContext(LawyerContext);
+  const [verifyQuery, setVerifyQuery] = useState("");
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
@@ -57,6 +58,27 @@ const Header = () => {
             </nav>
 
             <div className="header-actions">
+              {/* eWakili verification bar - search by name or bar number */}
+              <form
+                className="ewakili-verify"
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  if (!verifyQuery.trim()) return;
+                  const q = encodeURIComponent(verifyQuery.trim());
+                  // Open eWakili portal in a new tab with the query appended (portal may support direct query)
+                  window.open(`https://ewakili.judiciary.go.tz/#/ewakili/home?search=${q}`, "_blank");
+                  setVerifyQuery("");
+                }}
+              >
+                <input
+                  aria-label="Verify lawyer on eWakili"
+                  placeholder="Verify (name or Bar No.)"
+                  value={verifyQuery}
+                  onChange={(e) => setVerifyQuery(e.target.value)}
+                  className="ewakili-input"
+                />
+                <button type="submit" className="btn btn-verify-small">Verify</button>
+              </form>
               <LanguageSwitcher />
               {currentUser ? (
                 <div className="user-info">

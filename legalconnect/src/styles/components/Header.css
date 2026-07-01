@@ -67,6 +67,33 @@
   gap: 10px;
 }
 
+/* eWakili verify bar */
+.ewakili-verify {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-right: 6px;
+}
+.ewakili-input {
+  padding: 8px 10px;
+  border-radius: 8px;
+  border: 1px solid rgba(255,255,255,0.12);
+  background: rgba(255,255,255,0.04);
+  color: rgba(255,255,255,0.9);
+  width: 220px;
+  font-size: 0.86rem;
+}
+.ewakili-input::placeholder { color: rgba(255,255,255,0.5); }
+.btn-verify-small {
+  padding: 8px 10px;
+  background: transparent;
+  color: var(--gold);
+  border: 1px solid rgba(201,150,58,0.25);
+  border-radius: 8px;
+  font-weight: 600;
+}
+.btn-verify-small:hover { background: rgba(201,150,58,0.08); }
+
 .user-info {
   display: flex;
   align-items: center;
@@ -120,4 +147,5 @@
   .hamburger { display: flex; }
   .header-actions .btn { display: none; }
   .user-info .user-name { display: none; }
+  .ewakili-verify { display: none; }
 }
